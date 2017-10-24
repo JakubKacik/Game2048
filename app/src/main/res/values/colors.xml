@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="mainBackground">#FAF8EF</color>
     <color name="matrixbackground">#B6AC9F</color>
     <color name="squareBackground">#C7BFB3</color>
     <color name="logoColor">#ffd800</color>
-    <color name="buttons">#F8934F</color>
+    <color name="buttons">#f8934f</color>
     <color name="scores">#BDAD9F</color>
 </resources>
