@@ -7,145 +7,6 @@
     android:background="@color/mainBackground"
     tools:context="com.example.czjakac.a2048.MainActivity">
 
-
-    <!--
-
-    <TextView
-        android:id="@+id/m_tw_sentence"
-        android:layout_width="340dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="9dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:text="Join the numbers and get to the 2048 tile!"
-        android:textAlignment="textStart"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.783" />
-
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="345dp"
-        android:layout_height="188dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.038">
-
-        <Button
-            android:id="@+id/m_btn_leaderboard"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundedbuttons"
-            android:text="@string/leaderboard"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/m_btn_menu"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundedbuttons"
-            android:text="@string/menu"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/m_tw_best"
-            android:layout_width="100dp"
-            android:layout_height="55dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="231dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundedscores"
-            android:gravity="center"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginStart="231dp"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/m_tw_score"
-            android:layout_width="100dp"
-            android:layout_height="55dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundedscores"
-            android:gravity="center"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/m_tw_2048"
-            android:layout_width="100dp"
-            android:layout_height="102dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundtitle"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
-
-    </android.support.constraint.ConstraintLayout>-->
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -188,7 +49,7 @@
                     android:minWidth="120dp"
                     android:text="@string/app_name"
                     android:textColor="?android:attr/textColorPrimaryInverse"
-                    android:textSize="30sp"
+                    android:textSize="45dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -215,7 +76,6 @@
                             android:lines="2"
                             android:minLines="2"
                             android:paddingTop="5dp"
-                            android:singleLine="false"
                             android:text="@string/score"
                             android:textAlignment="center"
                             android:textSize="18sp"
@@ -234,7 +94,6 @@
                             android:lines="2"
                             android:minLines="2"
                             android:paddingTop="5dp"
-                            android:singleLine="false"
                             android:text="@string/best"
                             android:textAlignment="center"
                             android:textSize="18sp"
@@ -289,9 +148,10 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.00"
-                android:text="Join the numbers and get to the 2048 tile!"
-                android:textSize="18dp"
+                android:layout_weight="0.5"
+                android:autoSizeMaxTextSize="30dp"
+                android:autoSizeTextType="uniform"
+                android:text="@string/sentence"
                 android:textStyle="bold" />
 
 
@@ -311,100 +171,132 @@
 
                 <TextView
                     android:id="@+id/textView00"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/square" />
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView01"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/square" />
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
 
                 <TextView
                     android:id="@+id/textView02"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/square" />
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView03"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView10"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView11"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView12"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView13"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView20"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView21"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView22"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView23"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView30"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView31"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView32"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
 
                 <TextView
                     android:id="@+id/textView33"
-                    style="@style/square"
+                    style="@style/empty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:autoSizeTextType="uniform" />
             </GridLayout>
         </LinearLayout>
 

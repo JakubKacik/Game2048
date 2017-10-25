@@ -1,4 +1,4 @@
-package com.example.czjakac.a2048;
+package Entities;
 
 import android.widget.TextView;
 
@@ -9,10 +9,10 @@ import android.widget.TextView;
 public class Field {
     private int x;
     private int y;
-    private String value;
+    private Integer value;
     private TextView textView;
 
-    public Field(int x, int y, String value, TextView textView) {
+    public Field(int x, int y, Integer value, TextView textView) {
         this.x = x;
         this.y = y;
         this.value = value;
@@ -35,11 +35,11 @@ public class Field {
         this.y = y;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
