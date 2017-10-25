@@ -27,4 +27,12 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile 'com.github.pwittchen:swipe:0.1.0'
+    compile 'com.github.AndroidDeveloperLB:AutoFitTextView:4'
+    compile 'io.palaima:smoothbluetooth:0.1.0'
+}
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }

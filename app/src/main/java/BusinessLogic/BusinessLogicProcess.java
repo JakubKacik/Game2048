@@ -1,22 +1,15 @@
 package BusinessLogic;
-
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
-
 import com.example.czjakac.a2048.R;
-
 import java.util.Random;
-
 import Common.Constants;
 import Entities.Field;
-
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 
 /**
@@ -26,11 +19,11 @@ import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 public class BusinessLogicProcess {
 
     private void fillMatrix(Activity activity,Field[][] fields, int displayWidth){
-        for (int x = 0; x < Constants.SIZE ; x++){
-            for (int y = 0; y < Constants.SIZE ;y++) {
-                String s = "textView"+ Integer.toString(x) + Integer.toString(y);
+        for (int i = 0; i < Constants.SIZE ;i++){
+            for (int j = 0; j < Constants.SIZE ;j++) {
+                String s = "textView"+ Integer.toString(i) + Integer.toString(j);
                 TextView textView = activity.findViewById(activity.getResources().getIdentifier(s, "id", activity.getPackageName()));
-                Field field = fields[x][y]  = new Field(x,y,0,textView);
+                Field field = fields[j][i]  = new Field(0,textView);
 
                 float density = activity.getResources().getDisplayMetrics().density;
                 float px = 65 * density;
@@ -81,7 +74,6 @@ public class BusinessLogicProcess {
                 break;
             case 8:
                 id = R.drawable.field8;
-                isWhite = false;
                 break;
             case 16:
                 id = R.drawable.field16;
@@ -116,9 +108,11 @@ public class BusinessLogicProcess {
 
         if(field.getValue() == 0){
             field.getTextView().setText("");
+            field.getTextView().setTextColor(Color.GRAY);
         }
         else{
             field.getTextView().setText(String.valueOf(field.getValue()));
+            field.getTextView().setTextColor(Color.GRAY);
         }
 
         if(isWhite){
@@ -156,13 +150,15 @@ public class BusinessLogicProcess {
 
         boolean generateNew = false;
 
-        for (int x = 2; x >= 0; x--) {
-            for (int y = 0; y < 4; y++) {
+        for (int y = Constants.SIZE - 1; y >= 0; y--) {
+            for (int x = 0; x < Constants.SIZE; x++) {
                 if(fields[x][y].getValue() != 0){
-                    int row = x;
-                    while(row + 1 < 4){
-                        if(fields[x][row+1].getValue() == 0){
-                            fields[x][row+1].setValue(fields[x][row].getValue());
+                    int row = y;
+                    while(row + 1 < Constants.SIZE){
+                        int v = fields[x][row+1].getValue();
+                        if(v == 0){
+                            int value = fields[x][row].getValue();
+                            fields[x][row+1].setValue(value);
                             //drawField(fields[x][row+1]);
                             fields[x][row].setValue(0);
                             //drawField(fields[x][row]);
@@ -175,7 +171,6 @@ public class BusinessLogicProcess {
                             //playSound(rects[x][row+1].value);
                             //score += rects[x][row+1].value;
                             fields[x][row].setValue(0);
-                            drawField(fields[x][row]);
                             //freeCells++;
                             generateNew = true;
                             break;
@@ -189,6 +184,7 @@ public class BusinessLogicProcess {
         //if(generateNew == false && freeCells == 0){
             //gameOver();
        // }
+        clearMatrix(fields);
         redrawFields(fields);
 
         if(generateNew){
@@ -196,11 +192,141 @@ public class BusinessLogicProcess {
         }
     }
 
+    public void swipeRight(Field[][] fields){
+
+        boolean generateNew = false;
+
+        for (int y = 0; y < Constants.SIZE; y++) {
+            for (int x = Constants.SIZE -1 ; x >= 0; x--) {
+                if(fields[x][y].getValue() != 0){
+                    int coll = x;
+                    while(coll < Constants.SIZE - 1){
+                        if(fields[coll+1][y].getValue() == 0){
+                            int value = fields[coll][y].getValue();
+                            fields[coll+1][y].setValue(value);
+                            fields[coll][y].setValue(0);
+                            coll++;
+                            generateNew = true;
+                        }
+                        else if(fields[coll][y].getValue() == fields[coll+1][y].getValue()){
+                            int value = fields[coll+1][y].getValue() *2;
+                            fields[coll+1][y].setValue(value);
+                            //playSound(rects[coll+1][y].value);
+                            //score += rects[coll+1][y].value;
+                            fields[coll][y].setValue(0);
+                            //freeCells++;
+                            generateNew = true;
+                            break;
+                        }
+                        else break;
+                    }
+                }
+            }
+        }
+        clearMatrix(fields);
+        redrawFields(fields);
+
+        if(generateNew){
+            generateRandomField(fields);
+        }
+    }
+
+    public void swipeUp(Field[][] fields){
+
+        boolean generateNew = false;
+
+        for (int y = 0; y < Constants.SIZE; y++) {
+            for (int x = 0; x < Constants.SIZE ; x++) {
+                if(fields[x][y].getValue() != 0){
+                    int row = y;
+                    while(row > 0){
+                        if(fields[x][row-1].getValue() == 0){
+                            int value = fields[x][row].getValue();
+                            fields[x][row-1].setValue(value);
+                            fields[x][row].setValue(0);
+                            row--;
+                            generateNew = true;
+                        }
+                        else if(fields[x][row-1].getValue() == fields[x][row].getValue()){
+                            int value = fields[x][row-1].getValue()*2;
+                            fields[x][row-1].setValue(value);
+                            //playSound(rects[x][row-1].value);
+                            //score += rects[x][row-1].value;
+                            fields[x][row].setValue(0);
+                            //freeCells++;
+                            generateNew = true;
+                            break;
+                        }
+                        else break;
+                    }
+
+                }
+            }
+        }
+
+        clearMatrix(fields);
+        redrawFields(fields);
+        if(generateNew){
+            generateRandomField(fields);
+        }
+    }
+
+    public void swipeLeft(Field[][] fields){
+
+        boolean generateNew = false;
+
+        for (int y = 0; y < Constants.SIZE; y++) {
+            for (int x = 0; x < Constants.SIZE; x++) {
+                if(fields[x][y].getValue() != 0){
+                    int coll = x;
+                    while(coll - 1 >= 0){
+                        if(fields[coll-1][y].getValue() == 0){
+                            int value = fields[coll][y].getValue();
+                            fields[coll-1][y].setValue(value);
+                            fields[coll][y].setValue(0);
+                            coll--;
+                            generateNew = true;
+                        }
+                        else if(fields[coll][y].getValue() == fields[coll-1][y].getValue()){
+                            int value = fields[coll-1][y].getValue() * 2;
+                            fields[coll-1][y].setValue(value);
+                            //playSound(rects[coll-1][y].value);
+                            //score += rects[coll-1][y].value;
+                            fields[coll][y].setValue(0);
+                            //freeCells++;
+                            generateNew = true;
+                            break;
+                        }
+                        else break;
+                    }
+                }
+            }
+        }
+        clearMatrix(fields);
+        redrawFields(fields);
+
+        //if(generateNew === false && freeCells === 0){
+        //    gameOver();
+        //}
+        if(generateNew){
+            generateRandomField(fields);
+            generateNew = false;
+        }
+
+    }
+
+    private void clearMatrix(Field[][] fields){
+        for (int x = 0; x < Constants.SIZE;x++){
+            for(int y = 0; y < Constants.SIZE ;y++){
+                fields[x][y].getTextView().setBackgroundResource(R.drawable.emptyfield);
+                fields[x][y].getTextView().setText("");
+            }
+        }
+    }
+
     private void redrawFields(Field[][] fields){
-
-        for (int x = 1; x < 4;x++){
+        for (int x = 0; x < 4;x++){
             for(int y = 0; y< 4 ;y++){
-
                 drawField(fields[x][y]);
             }
         }

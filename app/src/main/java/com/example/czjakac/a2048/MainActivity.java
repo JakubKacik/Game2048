@@ -14,9 +14,13 @@ import android.widget.Toast;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
 
+import java.util.List;
+
 import BusinessLogic.BusinessLogicProcess;
 import Common.Constants;
 import Entities.Field;
+import io.palaima.smoothbluetooth.Device;
+import io.palaima.smoothbluetooth.SmoothBluetooth;
 
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -31,6 +35,8 @@ public class MainActivity extends Activity{
     private Button leaderboard;
     private Swipe swipe;
     BusinessLogicProcess blp = new BusinessLogicProcess();
+    private SmoothBluetooth mSmoothBluetooth;
+
 
 
 
@@ -38,12 +44,72 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSmoothBluetooth = new SmoothBluetooth(getApplicationContext(), SmoothBluetooth.ConnectionTo.ANDROID_DEVICE, SmoothBluetooth.Connection.SECURE, new SmoothBluetooth.Listener() {
+            @Override
+            public void onBluetoothNotSupported() {
+                //device does not support bluetooth
+            }
+
+            @Override
+            public void onBluetoothNotEnabled() {
+                //bluetooth is disabled, probably call Intent request to enable bluetooth
+            }
+
+            @Override
+            public void onConnecting(Device device) {
+                //called when connecting to particular device
+            }
+
+            @Override
+            public void onConnected(Device device) {
+                //called when connected to particular device
+            }
+
+            @Override
+            public void onDisconnected() {
+                //called when disconnected from device
+            }
+
+            @Override
+            public void onConnectionFailed(Device device) {
+                //called when connection failed to particular device
+            }
+
+            @Override
+            public void onDiscoveryStarted() {
+                //called when discovery is started
+            }
+
+            @Override
+            public void onDiscoveryFinished() {
+                //called when discovery is finished
+            }
+
+            @Override
+            public void onNoDevicesFound() {
+                //called when no devices found
+            }
+
+            @Override
+            public void onDevicesFound(final List<Device> deviceList, final SmoothBluetooth.ConnectionCallback connectionCallback) {
+                for ( int i = 0 ; i < deviceList.size();i++  ){
+                    deviceList.get(i).getName();
+                }
+            }
+
+            @Override
+            public void onDataReceived(int data) {
+                //receives all bytes
+            }
+        });
 
         initElements();
         initSwipe();
         initButtonClick();
 
-        blp.newGame(this,fields,getDisplayWidth(), score, best);
+
+
+        //blp.newGame(this,fields,getDisplayWidth(), score, best);
 
     }
 
@@ -65,7 +131,7 @@ public class MainActivity extends Activity{
     }
 
     private void initSwipe(){
-        this.swipe = new Swipe();
+        this.swipe = new Swipe(20,200);
         swipe.setListener(new SwipeListener() {
             @Override
             public void onSwipingLeft(MotionEvent event) {
@@ -74,7 +140,8 @@ public class MainActivity extends Activity{
 
             @Override
             public void onSwipedLeft(MotionEvent event) {
-                Toast.makeText(getApplicationContext(),"onSwipedLeft",LENGTH_LONG).show();
+                //blp.swipeLeft(fields);
+                mSmoothBluetooth.doDiscovery();
             }
 
             @Override
@@ -84,7 +151,7 @@ public class MainActivity extends Activity{
 
             @Override
             public void onSwipedRight(MotionEvent event) {
-                Toast.makeText(getApplicationContext(),"onSwipedRight",LENGTH_LONG).show();
+                blp.swipeRight(fields);
             }
 
             @Override
@@ -94,7 +161,7 @@ public class MainActivity extends Activity{
 
             @Override
             public void onSwipedUp(MotionEvent event) {
-                Toast.makeText(getApplicationContext(),"onSwipedUp",LENGTH_LONG).show();
+                blp.swipeUp(fields);
             }
 
             @Override

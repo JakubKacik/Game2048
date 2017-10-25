@@ -7,39 +7,21 @@ import android.widget.TextView;
  */
 
 public class Field {
-    private int x;
-    private int y;
-    private Integer value;
+    private int value;
     private TextView textView;
 
-    public Field(int x, int y, Integer value, TextView textView) {
-        this.x = x;
-        this.y = y;
+    public Field(Integer value, TextView textView) {
         this.value = value;
         this.textView = textView;
     }
 
-    public int getX() {
-        return x;
-    }
 
-    public void setX(int x) {
-        this.x = x;
-    }
 
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
