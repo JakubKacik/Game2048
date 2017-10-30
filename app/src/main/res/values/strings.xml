@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">2048</string>
+    <string name="menu">MENU</string>
+    <string name="leaderboard">LEADERBOARD</string>
+    <string name="sentence">Join the numbers and get to the 2048 tile!</string>
+    <string name="score">Score</string>
+    <string name="best">Best</string>
+</resources>

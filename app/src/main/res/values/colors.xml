@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="mainBackground">#FAF8EF</color>
+    <color name="matrixbackground">#B6AC9F</color>
+    <color name="squareBackground">#C7BFB3</color>
+    <color name="logoColor">#ffd800</color>
+    <color name="scores">#B6AC9F</color>
+    <color name="buttons">#f8934f</color>
+    <color name="field2">#EEE5D9</color>
+    <color name="field4">#ECE2C8</color>
+    <color name="field8">#F8AF72</color>
+    <color name="field16">#F68647</color>
+    <color name="field32">#FF6E53</color>
+    <color name="field64">#FF401E</color>
+    <color name="field128">#EFD26A</color>
+    <color name="field256">#F0CF56</color>
+    <color name="field512">#F0CB41</color>
+    <color name="field1024">#F0C828</color>
+    <color name="field20448">#ffd800</color>
+    <color name="textUpTo4">#776F65</color>
+    <color name="textAfter4">#FDFEFE</color>
+</resources>
