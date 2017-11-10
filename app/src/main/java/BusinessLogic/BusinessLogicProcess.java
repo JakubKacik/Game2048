@@ -1,12 +1,19 @@
 package BusinessLogic;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.czjakac.a2048.R;
+
+import org.w3c.dom.Text;
+
 import java.util.Random;
 import Common.Constants;
 import Entities.Field;
@@ -17,6 +24,10 @@ import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
  */
 
 public class BusinessLogicProcess {
+
+    private int freeCells;
+    private int totalScore;
+    private int bestScore;
 
     private void fillMatrix(Activity activity,Field[][] fields, int displayWidth){
         for (int i = 0; i < Constants.SIZE ;i++){
@@ -56,6 +67,7 @@ public class BusinessLogicProcess {
         }
         fields[x][y].setValue(value);
         drawField(fields[x][y]);
+        this.freeCells--;
     }
 
     private void drawField(Field field){
@@ -122,17 +134,21 @@ public class BusinessLogicProcess {
     }
 
     public void newGame(Activity activity, Field[][] fields, int displayWidth, TextView score, TextView best){
+        freeCells = Constants.SIZE * Constants.SIZE;
         fillMatrix(activity,fields,displayWidth);
 
-        setTwoLinesTextViews(score,"0");
-        setTwoLinesTextViews(best,"0");
+        this.totalScore = 0;
+        this.bestScore = 0;
+
+        setTwoLinesTextViews(score,"Score","0");
+        setTwoLinesTextViews(best,"Best","0");
 
         generateRandomField(fields);
         generateRandomField(fields);
     }
 
-    private void setTwoLinesTextViews(TextView textView,String value){
-        String text1 = textView.getText().toString();
+    private void setTwoLinesTextViews(TextView textView,String name,String value){
+        String text1 = name;
         String text2 = value;
 
         SpannableString span1 = new SpannableString(text1);
@@ -146,7 +162,7 @@ public class BusinessLogicProcess {
         textView.setText(finalText);
     }
 
-    public void swipeDown(Field[][] fields){
+    public void swipeDown(Field[][] fields, TextView score, TextView best){
 
         boolean generateNew = false;
 
@@ -159,19 +175,20 @@ public class BusinessLogicProcess {
                         if(v == 0){
                             int value = fields[x][row].getValue();
                             fields[x][row+1].setValue(value);
-                            //drawField(fields[x][row+1]);
                             fields[x][row].setValue(0);
-                            //drawField(fields[x][row]);
                             row++;
                             generateNew = true;
                         }
                         else if(fields[x][row+1].getValue() == fields[x][row].getValue()){
                             fields[x][row+1].setValue(fields[x][row+1].getValue()*2);
-                            //drawField(fields[x][row+1]);
                             //playSound(rects[x][row+1].value);
-                            //score += rects[x][row+1].value;
+                            this.totalScore += fields[x][row+1].getValue();
+                            setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
+                            if(totalScore > bestScore){
+                                setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                            }
                             fields[x][row].setValue(0);
-                            //freeCells++;
+                            freeCells++;
                             generateNew = true;
                             break;
                         }
@@ -180,19 +197,21 @@ public class BusinessLogicProcess {
                 }
             }
         }
-
-        //if(generateNew == false && freeCells == 0){
-            //gameOver();
-       // }
         clearMatrix(fields);
         redrawFields(fields);
+
+        Log.i("FreeCells: ",String.valueOf(freeCells));
+
+        if(!generateNew && freeCells == 0){
+            Log.i("EndGame"," enddddddddddd");
+        }
 
         if(generateNew){
             generateRandomField(fields);
         }
     }
 
-    public void swipeRight(Field[][] fields){
+    public void swipeRight(Field[][] fields,TextView score, TextView best){
 
         boolean generateNew = false;
 
@@ -212,9 +231,13 @@ public class BusinessLogicProcess {
                             int value = fields[coll+1][y].getValue() *2;
                             fields[coll+1][y].setValue(value);
                             //playSound(rects[coll+1][y].value);
-                            //score += rects[coll+1][y].value;
+                            this.totalScore += value;
+                            setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
+                            if(totalScore > bestScore){
+                                setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                            }
                             fields[coll][y].setValue(0);
-                            //freeCells++;
+                            this.freeCells++;
                             generateNew = true;
                             break;
                         }
@@ -223,15 +246,22 @@ public class BusinessLogicProcess {
                 }
             }
         }
+
         clearMatrix(fields);
         redrawFields(fields);
+
+        Log.i("FreeCells: ",String.valueOf(freeCells));
+
+        if(!generateNew && freeCells == 0){
+            Log.i("EndGame"," enddddddddddd");
+        }
 
         if(generateNew){
             generateRandomField(fields);
         }
     }
 
-    public void swipeUp(Field[][] fields){
+    public void swipeUp(Field[][] fields,TextView score, TextView best){
 
         boolean generateNew = false;
 
@@ -251,9 +281,13 @@ public class BusinessLogicProcess {
                             int value = fields[x][row-1].getValue()*2;
                             fields[x][row-1].setValue(value);
                             //playSound(rects[x][row-1].value);
-                            //score += rects[x][row-1].value;
+                            this.totalScore += value;
+                            setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
+                            if(totalScore > bestScore){
+                                setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                            }
                             fields[x][row].setValue(0);
-                            //freeCells++;
+                            freeCells++;
                             generateNew = true;
                             break;
                         }
@@ -263,15 +297,21 @@ public class BusinessLogicProcess {
                 }
             }
         }
-
         clearMatrix(fields);
         redrawFields(fields);
+
+        Log.i("FreeCells: ",String.valueOf(freeCells));
+
+        if(!generateNew && freeCells == 0){
+            Log.i("EndGame"," enddddddddddd");
+        }
+
         if(generateNew){
             generateRandomField(fields);
         }
     }
 
-    public void swipeLeft(Field[][] fields){
+    public void swipeLeft(Field[][] fields,TextView score, TextView best){
 
         boolean generateNew = false;
 
@@ -291,9 +331,13 @@ public class BusinessLogicProcess {
                             int value = fields[coll-1][y].getValue() * 2;
                             fields[coll-1][y].setValue(value);
                             //playSound(rects[coll-1][y].value);
-                            //score += rects[coll-1][y].value;
+                            this.totalScore += value;
+                            setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
+                            if(totalScore > bestScore){
+                                setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                            }
                             fields[coll][y].setValue(0);
-                            //freeCells++;
+                            freeCells++;
                             generateNew = true;
                             break;
                         }
@@ -305,14 +349,15 @@ public class BusinessLogicProcess {
         clearMatrix(fields);
         redrawFields(fields);
 
-        //if(generateNew === false && freeCells === 0){
-        //    gameOver();
-        //}
-        if(generateNew){
-            generateRandomField(fields);
-            generateNew = false;
+        Log.i("FreeCells: ",String.valueOf(freeCells));
+
+        if(!generateNew && freeCells == 0){
+            Log.i("EndGame"," enddddddddddd");
         }
 
+        if(generateNew){
+            generateRandomField(fields);
+        }
     }
 
     private void clearMatrix(Field[][] fields){

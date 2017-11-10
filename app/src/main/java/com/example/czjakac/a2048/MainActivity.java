@@ -3,7 +3,6 @@ package com.example.czjakac.a2048;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,18 +26,14 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class MainActivity extends Activity{
 
-
     private Field[][] fields = new Field[Constants.SIZE][Constants.SIZE];
     private TextView score;
     private TextView best;
     private Button menu;
     private Button leaderboard;
     private Swipe swipe;
-    BusinessLogicProcess blp = new BusinessLogicProcess();
+    BusinessLogicProcess blp;
     private SmoothBluetooth mSmoothBluetooth;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +98,12 @@ public class MainActivity extends Activity{
             }
         });
 
+        blp = new BusinessLogicProcess();
         initElements();
         initSwipe();
         initButtonClick();
 
-
-
-        //blp.newGame(this,fields,getDisplayWidth(), score, best);
-
+        blp.newGame(this,fields,getDisplayWidth(), score, best);
     }
 
 
@@ -135,43 +128,41 @@ public class MainActivity extends Activity{
         swipe.setListener(new SwipeListener() {
             @Override
             public void onSwipingLeft(MotionEvent event) {
-                //Toast.makeText(getApplicationContext(),"onSwipingLeft",LENGTH_LONG).show();
             }
 
             @Override
             public void onSwipedLeft(MotionEvent event) {
-                //blp.swipeLeft(fields);
-                mSmoothBluetooth.doDiscovery();
+                blp.swipeLeft(fields,score,best);
             }
 
             @Override
             public void onSwipingRight(MotionEvent event) {
-                //Toast.makeText(getApplicationContext(),"onSwipingright",LENGTH_LONG).show();
+
             }
 
             @Override
             public void onSwipedRight(MotionEvent event) {
-                blp.swipeRight(fields);
+                blp.swipeRight(fields,score,best);
             }
 
             @Override
             public void onSwipingUp(MotionEvent event) {
-                //Toast.makeText(getApplicationContext(),"onSwipingUp",LENGTH_LONG).show();
+
             }
 
             @Override
             public void onSwipedUp(MotionEvent event) {
-                blp.swipeUp(fields);
+                blp.swipeUp(fields,score,best);
             }
 
             @Override
             public void onSwipingDown(MotionEvent event) {
-                //Toast.makeText(getApplicationContext(),"onSwipingDown",LENGTH_LONG).show();
+
             }
 
             @Override
             public void onSwipedDown(MotionEvent event) {
-                blp.swipeDown(fields);
+                blp.swipeDown(fields,score,best);
             }
         });
     }
