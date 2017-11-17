@@ -395,6 +395,7 @@ public class MainActivity extends Activity{
                             setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
                             if(totalScore > bestScore){
                                 setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                                bestScore = totalScore;
                             }
                             PlaySound(value);
                             fields[x][row].setValue(0);
@@ -443,6 +444,7 @@ public class MainActivity extends Activity{
                             setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
                             if(totalScore > bestScore){
                                 setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                                bestScore = totalScore;
                             }
                             PlaySound(value);
                             fields[coll][y].setValue(0);
@@ -492,6 +494,7 @@ public class MainActivity extends Activity{
                             setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
                             if(totalScore > bestScore){
                                 setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                                bestScore = totalScore;
                             }
                             PlaySound(value);
                             fields[x][row].setValue(0);
@@ -540,6 +543,7 @@ public class MainActivity extends Activity{
                             setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
                             if(totalScore > bestScore){
                                 setTwoLinesTextViews(best,"Best",String.valueOf(totalScore));
+                                bestScore = totalScore;
                             }
                             PlaySound(value);
                             fields[coll][y].setValue(0);
