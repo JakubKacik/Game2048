@@ -126,7 +126,7 @@ public class MainActivity extends Activity{
             LoadGame();
         }
     }
-    
+
     private void initButtonClick(){
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
