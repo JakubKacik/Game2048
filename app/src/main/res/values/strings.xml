@@ -5,4 +5,12 @@
     <string name="sentence">Join the numbers and get to the 2048 tile!</string>
     <string name="score">Score</string>
     <string name="best">Best</string>
+    <string name="keepGoing">KEEP GOING</string>
+    <string name="newGame">NEW GAME</string>
+    <string name="multiplayer">MULTIPLAYER</string>
+    <string name="soundsOn">SOUNDS ON</string>
+    <string name="soundsOff">SOUNDS OFF</string>
+    <string name="back">BACK</string>
+    <string name="clear">CLEAR</string>
+    <string name="title_activity_leader_board">title_activity_leader_board</string>
 </resources>

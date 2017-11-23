@@ -2,6 +2,7 @@ package com.example.czjakac.a2048;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -41,7 +42,6 @@ public class MainActivity extends Activity{
     private int totalScore;
     private int bestScore;
     private int maxNum;
-    private SmoothBluetooth mSmoothBluetooth;
     private SharedPreferences mySharedPref;
     private SharedPreferences.Editor mySharedEditor;
     private MediaPlayer join;
@@ -53,72 +53,11 @@ public class MainActivity extends Activity{
 
         mySharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
 
-        /*mSmoothBluetooth = new SmoothBluetooth(getApplicationContext(), SmoothBluetooth.ConnectionTo.ANDROID_DEVICE, SmoothBluetooth.Connection.SECURE, new SmoothBluetooth.Listener() {
-            @Override
-            public void onBluetoothNotSupported() {
-                //device does not support bluetooth
-            }
-
-            @Override
-            public void onBluetoothNotEnabled() {
-                //bluetooth is disabled, probably call Intent request to enable bluetooth
-            }
-
-            @Override
-            public void onConnecting(Device device) {
-                //called when connecting to particular device
-            }
-
-            @Override
-            public void onConnected(Device device) {
-                //called when connected to particular device
-            }
-
-            @Override
-            public void onDisconnected() {
-                //called when disconnected from device
-            }
-
-            @Override
-            public void onConnectionFailed(Device device) {
-                //called when connection failed to particular device
-            }
-
-            @Override
-            public void onDiscoveryStarted() {
-                //called when discovery is started
-            }
-
-            @Override
-            public void onDiscoveryFinished() {
-                //called when discovery is finished
-            }
-
-            @Override
-            public void onNoDevicesFound() {
-                //called when no devices found
-            }
-
-            @Override
-            public void onDevicesFound(final List<Device> deviceList, final SmoothBluetooth.ConnectionCallback connectionCallback) {
-                for ( int i = 0 ; i < deviceList.size();i++  ){
-                    deviceList.get(i).getName();
-                }
-            }
-
-            @Override
-            public void onDataReceived(int data) {
-                //receives all bytes
-            }
-        });
-        */
-
         initElements();
         initSwipe();
         initButtonClick();
         join = MediaPlayer.create(this,R.raw.join);
 
-        mySharedPref = getSharedPreferences("myPref",Context.MODE_PRIVATE);
         if(!mySharedPref.contains("best")){
             newGame();
         }
@@ -131,14 +70,18 @@ public class MainActivity extends Activity{
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Menu",LENGTH_LONG).show();
+                Intent menu_intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(menu_intent);
+                overridePendingTransition(R.transition.trans_left_in,R.transition.trans_left_out);
             }
         });
 
         leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Leaderboard",LENGTH_LONG).show();
+                Intent leader_activiry = new Intent(getApplicationContext(), LeaderBoardActivity.class);
+                startActivity(leader_activiry);
+                overridePendingTransition(R.transition.trans_top_in,R.transition.trans_top_out);
             }
         });
     }
@@ -337,16 +280,16 @@ public class MainActivity extends Activity{
     }
 
     private void LoadGame(){
-        freeCells = mySharedPref.getInt("free",Context.MODE_PRIVATE);
-        bestScore = mySharedPref.getInt("best",Context.MODE_PRIVATE);
-        totalScore = mySharedPref.getInt("score",Context.MODE_PRIVATE);
-        maxNum = mySharedPref.getInt("max",Context.MODE_PRIVATE);
+        freeCells = mySharedPref.getInt("free",14);
+        bestScore = mySharedPref.getInt("best",0);
+        totalScore = mySharedPref.getInt("score",0);
+        maxNum = mySharedPref.getInt("max",4);
 
         fillMatrix();
 
         for (int i = 0; i < Constants.SIZE; i ++){
             for (int j = 0; j < Constants.SIZE;j++){
-                fields[i][j].setValue(mySharedPref.getInt(String.valueOf(i)+","+String.valueOf(j),Context.MODE_PRIVATE));
+                fields[i][j].setValue(mySharedPref.getInt(String.valueOf(i)+","+String.valueOf(j),2));
             }
         }
 
@@ -616,14 +559,19 @@ public class MainActivity extends Activity{
     }
 
     private void PlaySound(int value){
+
         if(value > maxNum){
             if(value == 2048){
-                MediaPlayer win = MediaPlayer.create(this,R.raw.cheer);
-                win.start();
+                if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
+                    MediaPlayer win = MediaPlayer.create(this,R.raw.cheer);
+                    win.start();
+                }
                 removeSharedPref();
             }
             else {
-                join.start();
+                if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
+                    join.start();
+                }
             }
             maxNum = value;
         }

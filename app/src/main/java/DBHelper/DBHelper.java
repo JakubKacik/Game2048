@@ -67,11 +67,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getBestScore(){
-        return db.rawQuery("SELECT Score FROM Scores ORDER BY score DESC LIMIT 1",null);
+        return db.rawQuery("SELECT Score FROM Scores ORDER BY score DESC LIMIT 10",null);
     }
 
     public Cursor getAllOrderByScore(){
-        Cursor res = db.rawQuery("SELECT * FROM Scores ORDER BY score DESC",null);
+        Cursor res = db.rawQuery("SELECT Name, Date, Score FROM Scores ORDER BY score DESC",null);
         return res;
     }
 
