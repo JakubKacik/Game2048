@@ -22,7 +22,8 @@
         <activity android:name=".MenuActivity" />
         <activity
             android:name=".LeaderBoardActivity"
-            android:label="@string/title_activity_leader_board"></activity>
+            android:label="@string/title_activity_leader_board" />
+        <activity android:name=".LoseWinActivity"></activity>
     </application>
 
 </manifest>

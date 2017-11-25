@@ -9,10 +9,10 @@ import java.util.Date;
 public class Score {
 
     private String name;
-    private Date date;
+    private String date;
     private int score;
 
-    public Score(String name, Date date, int score){
+    public Score(String name, String date, int score){
         this.name = name;
         this.date = date;
         this.score = score;
@@ -26,11 +26,11 @@ public class Score {
         this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

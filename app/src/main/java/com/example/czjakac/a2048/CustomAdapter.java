@@ -115,6 +115,4 @@ public class CustomAdapter extends BaseAdapter{
         }
         return vi;
     }
-
-
 }

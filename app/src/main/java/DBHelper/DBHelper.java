@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Name", score.getName());
         contentValues.put("Score", score.getScore());
-        contentValues.put("Date", score.getDate().toString().substring(0, 10));
+        contentValues.put("Date", score.getDate());
         long i =  db.insert("Scores", null, contentValues);
         if(i == -1){
             return false;
@@ -78,5 +78,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getLimitedScore(int number){
         Cursor res = db.rawQuery("SELECT Name, Date, Score FROM Scores ORDER BY score DESC LIMIT number",null);
         return res;
+    }
+
+    public void deleteAll(){
+        db.execSQL("DELETE FROM Scores");
     }
 }
