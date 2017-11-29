@@ -18,7 +18,7 @@
             <TextView
                 android:id="@+id/li_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/li_date"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginTop="5dp"

@@ -7,16 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import Common.Constants;
+import Common.GameEngine;
 import DBHelper.DBHelper;
 import Entities.Score;
 
@@ -36,25 +36,33 @@ public class LoseWinActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lose_win);
 
+        initElements();
+        initButtonClick();
+    }
+
+    private void initElements(){
         newGame = findViewById(R.id.lw_btn_newGame);
         save = findViewById(R.id.lw_btn_saveScore);
         score = findViewById(R.id.lw_tw_score);
         title = findViewById(R.id.lw_tw_title);
-
         Intent intent = getIntent();
+        title.setText(intent.getStringExtra("title"));
+        mySharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
         totalScore = intent.getIntExtra("score",0);
         score.setText(String.valueOf(totalScore));
-        title.setText(intent.getStringExtra("title"));
 
-        mySharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                GameEngine.bounceView(score);
+            }
+        }, 1000);
 
-
-
-        initButtonClick();
     }
 
     private void initButtonClick(){
         newGame.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 removeSharedPref();
@@ -68,20 +76,15 @@ public class LoseWinActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                // get prompts.xml view
                 LayoutInflater li = LayoutInflater.from(context);
                 View promptsView = li.inflate(R.layout.inputdialog, null);
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        context);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-                // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
-                final EditText userInput = (EditText) promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
+                final EditText userInput = promptsView.findViewById(R.id.editTextDialogUserInput);
 
-                // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
@@ -91,11 +94,7 @@ public class LoseWinActivity extends Activity {
                                         DBHelper db = new DBHelper(context);
                                         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                                         db.insertScore(new Score(userInput.getText().toString(),date,totalScore));
-                                        removeSharedPref();
-
-                                        Intent main_intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(main_intent);
-                                        overridePendingTransition(R.transition.trans_right_in,R.transition.trans_right_out);
+                                        onBackPressed();
                                     }
                                     }
                                 })
@@ -106,19 +105,14 @@ public class LoseWinActivity extends Activity {
                                     }
                                 });
 
-                // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // show it
                 alertDialog.show();
-
             }
         });
     }
 
     private void removeSharedPref(){
         mySharedEditor = mySharedPref.edit();
-        mySharedEditor.remove("best");
         mySharedEditor.remove("score");
         mySharedEditor.remove("free");
         mySharedEditor.remove("max");
@@ -129,5 +123,16 @@ public class LoseWinActivity extends Activity {
             }
         }
         mySharedEditor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        removeSharedPref();
+        Intent menu_intent = new Intent(getApplicationContext(), MainActivity.class);
+        menu_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(menu_intent);
+        finish();
+        overridePendingTransition(R.transition.trans_right_in,R.transition.trans_right_out);
     }
 }
