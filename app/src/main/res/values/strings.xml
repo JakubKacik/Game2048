@@ -13,5 +13,6 @@
     <string name="back">BACK</string>
     <string name="clear">CLEAR</string>
     <string name="save_Score">SAVE SCORE</string>
+    <string name="play_again">PLAY AGAIN</string>
     <string name="title_activity_leader_board">title_activity_leader_board</string>
 </resources>

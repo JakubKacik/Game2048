@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/lw_tw_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -42,7 +42,7 @@
             android:textSize="40sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/lw_tw_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -62,7 +62,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/lw_btn_saveScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -73,7 +73,7 @@
                 android:textSize="15sp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/lw_btn_newGame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

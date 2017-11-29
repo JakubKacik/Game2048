@@ -58,7 +58,7 @@ public class MainActivity extends Activity{
         initButtonClick();
         join = MediaPlayer.create(this,R.raw.join);
 
-        if(!mySharedPref.contains("best")){
+        if(!mySharedPref.contains("free")){
             newGame();
         }
         else {
@@ -261,14 +261,7 @@ public class MainActivity extends Activity{
         totalScore = 0;
         maxNum = 4;
 
-        Cursor res =  new DBHelper(this).getBestScore();
-        if(res.getCount() == 0){
-            bestScore = 0;
-        }
-        else{
-            res.moveToFirst();
-            bestScore = res.getInt(0);
-        }
+        loadBestScore();
 
         setTwoLinesTextViews(score,"Score",String.valueOf(totalScore));
         setTwoLinesTextViews(best,"Best",String.valueOf(bestScore));
@@ -279,11 +272,24 @@ public class MainActivity extends Activity{
         saveSharedPref();
     }
 
+    private void loadBestScore(){
+        Cursor res =  new DBHelper(this).getBestScore();
+        if(res.getCount() == 0){
+            bestScore = 0;
+        }
+        else{
+            res.moveToFirst();
+            bestScore = res.getInt(0);
+        }
+    }
+
     private void LoadGame(){
         freeCells = mySharedPref.getInt("free",14);
-        bestScore = mySharedPref.getInt("best",0);
+        //bestScore = mySharedPref.getInt("best",0);
         totalScore = mySharedPref.getInt("score",0);
         maxNum = mySharedPref.getInt("max",4);
+
+        loadBestScore();
 
         fillMatrix();
 
@@ -355,7 +361,7 @@ public class MainActivity extends Activity{
         redrawFields();
 
         if(!generateNew && freeCells == 0){
-            removeSharedPref();
+            startLoseWinActivity(Constants.LOSE);
         }
 
         if(generateNew){
@@ -405,7 +411,7 @@ public class MainActivity extends Activity{
         redrawFields();
 
         if(!generateNew && freeCells == 0){
-            removeSharedPref();
+            startLoseWinActivity(Constants.LOSE);
         }
 
         if(generateNew){
@@ -454,7 +460,7 @@ public class MainActivity extends Activity{
         redrawFields();
 
         if(!generateNew && freeCells == 0){
-            removeSharedPref();
+            startLoseWinActivity(Constants.LOSE);
         }
 
         if(generateNew){
@@ -503,7 +509,7 @@ public class MainActivity extends Activity{
         redrawFields();
 
         if(!generateNew && freeCells == 0){
-            removeSharedPref();
+            startLoseWinActivity(Constants.LOSE);
         }
 
         if(generateNew){
@@ -531,7 +537,7 @@ public class MainActivity extends Activity{
 
     private void saveSharedPref(){
         mySharedEditor = mySharedPref.edit();
-        mySharedEditor.putInt("best",bestScore);
+        //mySharedEditor.putInt("best",bestScore);
         mySharedEditor.putInt("score",totalScore);
         mySharedEditor.putInt("free",freeCells);
         mySharedEditor.putInt("max",maxNum);
@@ -566,7 +572,7 @@ public class MainActivity extends Activity{
                     MediaPlayer win = MediaPlayer.create(this,R.raw.cheer);
                     win.start();
                 }
-                removeSharedPref();
+                startLoseWinActivity(Constants.WIN);
             }
             else {
                 if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
@@ -575,5 +581,13 @@ public class MainActivity extends Activity{
             }
             maxNum = value;
         }
+    }
+
+    private void startLoseWinActivity(String title){
+        Intent intent = new Intent(getApplicationContext(),LoseWinActivity.class);
+        intent.putExtra("score", totalScore);
+        intent.putExtra("title",title );
+        startActivity(intent);
+
     }
 }
