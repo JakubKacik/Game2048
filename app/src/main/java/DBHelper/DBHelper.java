@@ -44,26 +44,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertScore (Score score) {
+    public void insertScore (Score score) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Name", score.getName());
         contentValues.put("Score", score.getScore());
         contentValues.put("Date", score.getDate());
-        long i =  db.insert("Scores", null, contentValues);
-        if(i == -1){
-            return false;
-        }
-        return true;
-    }
-
-    public int numberOfRows(){
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, Table_NAME);
-        return numRows;
-    }
-
-    public Cursor getAll (){
-        Cursor res = db.rawQuery("SELECT * FROM Scores",null);
-        return  res;
+        db.insert("Scores", null, contentValues);
     }
 
     public Cursor getBestScore(){
@@ -71,16 +57,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllOrderByScore(){
-        Cursor res = db.rawQuery("SELECT Name, Date, Score FROM Scores ORDER BY score DESC",null);
-        return res;
-    }
-
-    public Cursor getLimitedScore(int number){
-        Cursor res = db.rawQuery("SELECT Name, Date, Score FROM Scores ORDER BY score DESC LIMIT number",null);
+        Cursor res = db.rawQuery("SELECT Id ,Name, Date, Score FROM Scores ORDER BY score DESC",null);
         return res;
     }
 
     public void deleteAll(){
         db.execSQL("DELETE FROM Scores");
+    }
+
+    public void delete(int id){
+        db.delete("Scores","Id=?",new String[]{String.valueOf(id)});
     }
 }

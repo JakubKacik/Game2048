@@ -15,8 +15,6 @@ public class Field {
         this.textView = textView;
     }
 
-
-
     public int getValue() {
         return value;
     }

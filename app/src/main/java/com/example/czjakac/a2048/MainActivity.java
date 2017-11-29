@@ -1,6 +1,7 @@
 package com.example.czjakac.a2048;
 
 import android.app.Activity;
+import android.os.Vibrator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,21 +19,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
 import java.util.Random;
 import Common.Constants;
+import Common.GameEngine;
 import DBHelper.DBHelper;
 import Entities.Field;
-import io.palaima.smoothbluetooth.SmoothBluetooth;
-
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
-import static android.widget.Toast.LENGTH_LONG;
 
 public class MainActivity extends Activity{
 
-    private Field[][] fields = new Field[Constants.SIZE][Constants.SIZE];
+    private Field[][] fields;
     private TextView score;
     private TextView best;
     private Button menu;
@@ -44,21 +42,17 @@ public class MainActivity extends Activity{
     private int maxNum;
     private SharedPreferences mySharedPref;
     private SharedPreferences.Editor mySharedEditor;
-    private MediaPlayer join;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mySharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
-
         initElements();
         initSwipe();
         initButtonClick();
-        join = MediaPlayer.create(this,R.raw.join);
 
-        if(!mySharedPref.contains("free")){
+        if(!mySharedPref.contains("free") || mySharedPref.getInt("free",0) == 0){
             newGame();
         }
         else {
@@ -90,8 +84,7 @@ public class MainActivity extends Activity{
         this.swipe = new Swipe(20,200);
         swipe.setListener(new SwipeListener() {
             @Override
-            public void onSwipingLeft(MotionEvent event) {
-            }
+            public void onSwipingLeft(MotionEvent event) {}
 
             @Override
             public void onSwipedLeft(MotionEvent event) {
@@ -99,9 +92,7 @@ public class MainActivity extends Activity{
             }
 
             @Override
-            public void onSwipingRight(MotionEvent event) {
-
-            }
+            public void onSwipingRight(MotionEvent event) {}
 
             @Override
             public void onSwipedRight(MotionEvent event) {
@@ -109,9 +100,7 @@ public class MainActivity extends Activity{
             }
 
             @Override
-            public void onSwipingUp(MotionEvent event) {
-
-            }
+            public void onSwipingUp(MotionEvent event) {}
 
             @Override
             public void onSwipedUp(MotionEvent event) {
@@ -119,9 +108,7 @@ public class MainActivity extends Activity{
             }
 
             @Override
-            public void onSwipingDown(MotionEvent event) {
-
-            }
+            public void onSwipingDown(MotionEvent event) {}
 
             @Override
             public void onSwipedDown(MotionEvent event) {
@@ -137,10 +124,13 @@ public class MainActivity extends Activity{
     }
 
     private void initElements() {
+        GameEngine.setContext(this);
+        this.fields = new Field[Constants.SIZE][Constants.SIZE];
         this.score = findViewById(R.id.m_tw_score);
         this.best = findViewById(R.id.m_tw_best);
         this.menu = findViewById(R.id.m_tw_menu);
         this.leaderboard = findViewById(R.id.m_tw_leaderboard);
+        mySharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
     }
 
     private int getDisplayWidth(){
@@ -281,11 +271,14 @@ public class MainActivity extends Activity{
             res.moveToFirst();
             bestScore = res.getInt(0);
         }
+
+        if(bestScore < totalScore){
+            bestScore = totalScore;
+        }
     }
 
     private void LoadGame(){
         freeCells = mySharedPref.getInt("free",14);
-        //bestScore = mySharedPref.getInt("best",0);
         totalScore = mySharedPref.getInt("score",0);
         maxNum = mySharedPref.getInt("max",4);
 
@@ -295,7 +288,7 @@ public class MainActivity extends Activity{
 
         for (int i = 0; i < Constants.SIZE; i ++){
             for (int j = 0; j < Constants.SIZE;j++){
-                fields[i][j].setValue(mySharedPref.getInt(String.valueOf(i)+","+String.valueOf(j),2));
+                fields[j][i].setValue(mySharedPref.getInt(String.valueOf(i)+","+String.valueOf(j),2));
             }
         }
 
@@ -535,48 +528,30 @@ public class MainActivity extends Activity{
         }
     }
 
-    private void saveSharedPref(){
+    private void saveSharedPref() {
         mySharedEditor = mySharedPref.edit();
-        //mySharedEditor.putInt("best",bestScore);
-        mySharedEditor.putInt("score",totalScore);
-        mySharedEditor.putInt("free",freeCells);
-        mySharedEditor.putInt("max",maxNum);
+        mySharedEditor.putInt("score", totalScore);
+        mySharedEditor.putInt("free", freeCells);
+        mySharedEditor.putInt("max", maxNum);
         for (int i = 0; i < Constants.SIZE; i++) {
-            for(int j = 0; j< Constants.SIZE;j++){
-                mySharedEditor.putInt(String.valueOf(i)+","+String.valueOf(j),fields[j][i].getValue());
-            }
-        }
-        mySharedEditor.apply();
-    }
-
-    private void removeSharedPref(){
-        mySharedEditor = mySharedPref.edit();
-        mySharedEditor.remove("best");
-        mySharedEditor.remove("score");
-        mySharedEditor.remove("free");
-        mySharedEditor.remove("max");
-
-        for (int i = 0; i < Constants.SIZE; i++) {
-            for(int j = 0; j< Constants.SIZE;j++){
-                mySharedEditor.remove(String.valueOf(i)+","+String.valueOf(j));
+            for (int j = 0; j < Constants.SIZE; j++) {
+                mySharedEditor.putInt(String.valueOf(i) + "," + String.valueOf(j), fields[j][i].getValue());
             }
         }
         mySharedEditor.apply();
     }
 
     private void PlaySound(int value){
-
         if(value > maxNum){
             if(value == 2048){
-                if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
-                    MediaPlayer win = MediaPlayer.create(this,R.raw.cheer);
-                    win.start();
-                }
                 startLoseWinActivity(Constants.WIN);
             }
             else {
                 if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
-                    join.start();
+                    GameEngine.playSound(Constants.JOIN_SOUND);
+                }
+                if(!mySharedPref.contains("vibrations") || mySharedPref.getBoolean("vibrations",true) == true){
+                    GameEngine.vibrate(200);
                 }
             }
             maxNum = value;
@@ -584,10 +559,18 @@ public class MainActivity extends Activity{
     }
 
     private void startLoseWinActivity(String title){
+        if(!mySharedPref.contains("sounds") || mySharedPref.getBoolean("sounds",true) == true){
+            if(title == Constants.WIN){
+                GameEngine.playSound(Constants.WIN_SOUND);
+            }
+            else {
+                GameEngine.playSound(Constants.LOSE_SOUND);
+            }
+        }
         Intent intent = new Intent(getApplicationContext(),LoseWinActivity.class);
         intent.putExtra("score", totalScore);
         intent.putExtra("title",title );
+        finish();
         startActivity(intent);
-
     }
 }

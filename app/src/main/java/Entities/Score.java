@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Score {
 
+    private int id;
     private String name;
     private String date;
     private int score;
@@ -40,6 +41,14 @@ public class Score {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

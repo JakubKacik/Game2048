@@ -57,8 +57,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/menu_btn_multiplayer"
+        <ToggleButton
+            android:id="@+id/menu_btn_vibration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -67,8 +67,9 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/roundsquares"
-            android:text="@string/multiplayer"
             android:textColor="@android:color/white"
+            android:textOff="VIBRATION OFF"
+            android:textOn="VIBRATION ON"
             android:textSize="25sp" />
 
         <ToggleButton
